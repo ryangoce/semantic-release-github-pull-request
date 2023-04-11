@@ -16,6 +16,7 @@ jobs:
       - name: Run Semantic Release
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN_RELEASE: ${{ secrets.GH_TOKEN_RELEASE }}
         run: |
           echo "Refreshing GitHub tags...";
           git fetch --tags
