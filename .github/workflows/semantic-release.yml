@@ -1,0 +1,29 @@
+name: Run Semantic Release
+
+on:
+  push:
+    branches:
+      - release
+
+jobs:
+  semantic-release:
+    name: Do Semantic Release
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Branch
+        uses: actions/checkout@v2
+
+      - name: Run Semantic Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Refreshing GitHub tags...";
+          git fetch --tags
+
+          echo "Generating release info...";
+          git for-each-ref --sort=-committerdate --count=5 --format='%(contents:body)' refs/tags > RELEASE.md
+          cat RELEASE.md
+
+          echo "Running semantic release...";
+          npm ci --loglevel verbose --legacy-peer-deps
+          npm run-script semantic:release
