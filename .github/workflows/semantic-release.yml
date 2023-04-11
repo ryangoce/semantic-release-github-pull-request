@@ -3,7 +3,7 @@ name: Run Semantic Release
 on:
   push:
     branches:
-      - release
+      - main
 
 jobs:
   semantic-release:
